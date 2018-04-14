@@ -33,14 +33,12 @@ jacoco {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('org.projectlombok:lombok')
 
     testCompile("pl.pojo:pojo-tester:${pojoTesterVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
     testCompile('io.projectreactor:reactor-test')
 }
 
