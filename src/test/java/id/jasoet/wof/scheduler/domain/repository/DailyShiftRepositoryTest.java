@@ -18,6 +18,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DailyShiftRepositoryTest {
 
     @Test
+    public void givenGeneratedDataShouldAbleToSaveItInMemory() {
+        val repository = new DailyShiftRepository();
+
+        val dateParameter = LocalDate.of(2018, Month.APRIL, 1);
+
+        val dailyShifts = repository.getNextTwoWeekShift(dateParameter);
+
+        repository.replaceAll(dailyShifts);
+        val retrievedShifts = repository.retrieveAll();
+
+        dailyShiftsCheck(retrievedShifts);
+        repository.removeAll();
+    }
+
+    @Test
+    public void givenRemovedDataShouldReturnEmptyShifts() {
+        val repository = new DailyShiftRepository();
+
+        val dateParameter = LocalDate.of(2018, Month.APRIL, 1);
+
+        val dailyShifts = repository.getNextTwoWeekShift(dateParameter);
+
+        repository.replaceAll(dailyShifts);
+        repository.removeAll();
+        val retriedShifts = repository.retrieveAll();
+        assertThat(retriedShifts).isEmpty();
+    }
+
+    @Test
     public void givenCertainDateShouldAbleToPopulateTwoWeeksDailyShifts() {
         val repository = new DailyShiftRepository();
 

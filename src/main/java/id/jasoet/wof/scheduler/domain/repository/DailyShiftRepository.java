@@ -1,5 +1,7 @@
 package id.jasoet.wof.scheduler.domain.repository;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import id.jasoet.wof.scheduler.domain.entity.DailyShift;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,9 +17,11 @@ import java.util.stream.IntStream;
 /**
  * Repository to handle {@link DailyShift} generation based on certain date.
  * As assignment require, each engineer need to complete a full day shift in span of two weeks time with certain rules
- *
+ * <p>
  * This class leverage Spring {@link Repository} annotation and will be managed by Spring DI Context.
- * Intentionally not designed as singleton or utility class.
+ * Using Caffeine cache library to save generated DailyShifts in memory.
+ * Intentionally not designed as singleton or utility class so in the future if we can easily change Repository implementation
+ * and add supports for database integration.
  *
  * @author Deny Prasetyo
  * @since 0.1
@@ -24,6 +29,8 @@ import java.util.stream.IntStream;
 
 @Repository
 public class DailyShiftRepository {
+
+    private Cache<LocalDate, DailyShift> dailyShiftCache = Caffeine.newBuilder().build();
 
     /**
      * Populate Two weeks of {@link DailyShift} based on today date.
@@ -50,6 +57,36 @@ public class DailyShiftRepository {
                         finalFirstDay.plusDays(i).getDayOfWeek() != DayOfWeek.SUNDAY)
                 .mapToObj(i -> new DailyShift(finalFirstDay.plusDays(i), null, null))
                 .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Invalidate all saved data and replace with a new one
+     *
+     * @param newShifts List of new DailyShift that will be stored
+     */
+    public void replaceAll(List<DailyShift> newShifts) {
+        removeAll();
+        val recordMap = newShifts.stream().collect(Collectors.toMap(DailyShift::getDate, s -> s));
+        dailyShiftCache.putAll(recordMap);
+    }
+
+
+    /**
+     * Invalidate all saved data
+     */
+    public void removeAll() {
+        dailyShiftCache.invalidateAll();
+    }
+
+    /**
+     * Retrieve all saved data from memory, sorted by date
+     *
+     * @return List of DailyShift
+     */
+    public List<DailyShift> retrieveAll() {
+        val values = dailyShiftCache.asMap().values().stream().sorted(Comparator.comparing(DailyShift::getDate));
+        return values.collect(Collectors.toList());
     }
 
 }
