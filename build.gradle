@@ -32,6 +32,8 @@ jacoco {
     toolVersion = "0.8.1"
 }
 
+check.dependsOn jacocoTestReport
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-webflux')
