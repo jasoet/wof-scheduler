@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Service class to handle {@link Engineer}operation.
+ * Service class to handle {@link Engineer} operation.
  * <p>
  * This class leverage Spring {@link Service} annotation and will be managed by Spring DI Context.
  *
@@ -42,6 +42,11 @@ public class EngineerServiceImpl implements EngineerService {
         );
     }
 
+    @Override
+    public void save(Engineer engineer) {
+        engineerRepository.save(engineer);
+    }
+
     public void saveAll(List<Engineer> engineers) {
         engineerRepository.saveAll(engineers);
     }
@@ -49,6 +54,26 @@ public class EngineerServiceImpl implements EngineerService {
     @Override
     public void deleteAll() {
         engineerRepository.deleteAll();
+    }
+
+    @Override
+    public Engineer findById(int id) {
+        return engineerRepository.findById(id);
+    }
+
+    @Override
+    public List<Engineer> findAll() {
+        return engineerRepository.findAll();
+    }
+
+    @Override
+    public void update(int id, Engineer engineer) {
+        engineerRepository.update(id, engineer);
+    }
+
+    @Override
+    public void delete(int id) {
+        engineerRepository.delete(id);
     }
 
 }
