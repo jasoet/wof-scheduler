@@ -1,6 +1,6 @@
 package id.jasoet.wof.scheduler.infra.command.executor;
 
-import id.jasoet.wof.scheduler.infra.command.base.Command;
+import id.jasoet.wof.scheduler.infra.command.Command;
 import org.reactivestreams.Publisher;
 
 public interface Executor {

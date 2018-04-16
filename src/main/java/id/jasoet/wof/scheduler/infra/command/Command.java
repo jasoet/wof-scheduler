@@ -1,4 +1,4 @@
-package id.jasoet.wof.scheduler.infra.command.base;
+package id.jasoet.wof.scheduler.infra.command;
 
 import org.reactivestreams.Publisher;
 
