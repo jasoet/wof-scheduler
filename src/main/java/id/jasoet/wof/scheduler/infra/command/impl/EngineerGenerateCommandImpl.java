@@ -16,7 +16,7 @@ public class EngineerGenerateCommandImpl implements EngineerGenerateCommand {
     }
 
     @Override
-    public Flux<Engineer> execute(Integer request) {
+    public Flux<Engineer> execute(Void request) {
         var engineers = engineerService.generateEngineers();
         engineerService.deleteAll();
         engineerService.saveAll(engineers);
