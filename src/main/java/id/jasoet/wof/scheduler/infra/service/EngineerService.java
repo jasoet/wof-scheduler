@@ -9,4 +9,5 @@ import java.util.List;
 public interface EngineerService {
     List<Engineer> generateEngineers();
     void saveAll(List<Engineer> engineers);
+    void deleteAll();
 }

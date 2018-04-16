@@ -46,4 +46,9 @@ public class EngineerServiceImpl implements EngineerService {
         engineerRepository.saveAll(engineers);
     }
 
+    @Override
+    public void deleteAll() {
+        engineerRepository.deleteAll();
+    }
+
 }
