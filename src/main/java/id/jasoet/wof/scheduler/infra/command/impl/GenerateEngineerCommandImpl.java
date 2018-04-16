@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 @Component
-public class GenerateEngineerCommandImpl extends AbstractCommand<Engineer, Integer> implements GenerateEngineerCommand {
+public class GenerateEngineerCommandImpl extends AbstractCommand<Flux<Engineer>, Integer> implements GenerateEngineerCommand {
     private EngineerService engineerService;
 
     public GenerateEngineerCommandImpl(EngineerService engineerService) {
@@ -19,6 +19,7 @@ public class GenerateEngineerCommandImpl extends AbstractCommand<Engineer, Integ
     @Override
     public Flux<Engineer> execute(Integer request) {
         var engineers = engineerService.generateEngineers();
+        engineerService.deleteAll();
         engineerService.saveAll(engineers);
         return Flux.fromIterable(engineers);
     }

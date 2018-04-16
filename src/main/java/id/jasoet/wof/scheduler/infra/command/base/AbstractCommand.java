@@ -5,7 +5,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public abstract class AbstractCommand<T, R>
+public abstract class AbstractCommand<T extends Publisher, R>
         implements Command<T, R>, ApplicationContextAware {
 
     protected ApplicationContext applicationContext;
@@ -16,6 +16,6 @@ public abstract class AbstractCommand<T, R>
     }
 
     @Override
-    public abstract Publisher<T> execute(R request);
+    public abstract T execute(R request);
 
 }

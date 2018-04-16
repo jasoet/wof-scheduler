@@ -13,7 +13,7 @@ public class ExecutorImpl implements Executor, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @Override
-    public <T, R> Publisher<T> execute(Class<? extends Command<T, R>> commandClass, R request) {
+    public <T extends Publisher, R> T execute(Class<? extends Command<T, R>> commandClass, R request) {
         Command<T, R> command = applicationContext.getBean(commandClass);
         return command.execute(request);
     }
