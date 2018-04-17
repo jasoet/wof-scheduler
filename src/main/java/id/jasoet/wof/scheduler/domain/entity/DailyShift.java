@@ -1,5 +1,7 @@
 package id.jasoet.wof.scheduler.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Value;
 
 import java.time.LocalDate;
@@ -15,7 +17,8 @@ import java.time.LocalDate;
  * @since 0.1
  */
 
-@Value
+@Data
+@AllArgsConstructor
 public class DailyShift {
     private LocalDate date;
     private Engineer firstHalf;

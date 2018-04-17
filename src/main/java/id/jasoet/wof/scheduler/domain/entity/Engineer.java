@@ -1,6 +1,7 @@
 package id.jasoet.wof.scheduler.domain.entity;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /*
  * Engineer class, to handle Engineer Object.
@@ -11,7 +12,8 @@ import lombok.Value;
  * @since 0.1
  */
 
-@Value
+@Data
+@AllArgsConstructor
 public class Engineer {
     private int id;
     private String name;
