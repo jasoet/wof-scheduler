@@ -60,7 +60,7 @@ dependencies {
 }
 
 docker {
-    name "docker.io/jasoet/wof-scheduler"
+    name "gcr.io/jasoet-research/wof-scheduler"
     tags 'latest'
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])

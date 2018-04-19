@@ -8,9 +8,20 @@ env:
 jdk:
 - oraclejdk8
 
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+
 before_script:
 - chmod +x gradlew
-- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+- source /home/travis/google-cloud-sdk/path.bash.inc
+- openssl aes-256-cbc -K $encrypted_b0799c72c2bc_key -iv $encrypted_b0799c72c2bc_iv -in gcloud-config.json.enc -out /home/travis/google-cloud-sdk/gcloud-config.json -d
+- gcloud auth activate-service-account --key-file /home/travis/google-cloud-sdk/gcloud-config.json
+- gcloud -q version
+- gcloud -q components install kubectl
+- gcloud container clusters get-credentials jasoet-research --zone asia-southeast1-a --project jasoet-research
 
 script:
 - "./gradlew check"
