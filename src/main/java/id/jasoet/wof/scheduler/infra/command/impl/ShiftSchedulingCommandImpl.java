@@ -4,6 +4,7 @@ import id.jasoet.wof.scheduler.domain.entity.DailyShift;
 import id.jasoet.wof.scheduler.domain.entity.Engineer;
 import id.jasoet.wof.scheduler.domain.rule.CompletedShift;
 import id.jasoet.wof.scheduler.domain.rule.ConsecutiveDay;
+import id.jasoet.wof.scheduler.domain.rule.ShiftFulfilled;
 import id.jasoet.wof.scheduler.domain.rule.SingleShiftDaily;
 import id.jasoet.wof.scheduler.infra.command.ShiftSchedulingCommand;
 import id.jasoet.wof.scheduler.infra.service.DailyShiftService;
@@ -25,18 +26,21 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
     private CompletedShift completedShiftFilter;
     private SingleShiftDaily singleShiftDailyFilter;
     private ConsecutiveDay consecutiveDayFilter;
+    private ShiftFulfilled shiftFulfilled;
 
     @Autowired
     public ShiftSchedulingCommandImpl(EngineerService engineerService,
                                       DailyShiftService dailyShiftService,
                                       CompletedShift completedShiftFilter,
                                       SingleShiftDaily singleShiftDailyFilter,
-                                      ConsecutiveDay consecutiveDayFilter) {
+                                      ConsecutiveDay consecutiveDayFilter,
+                                      ShiftFulfilled shiftFulfilled) {
         this.engineerService = engineerService;
         this.dailyShiftService = dailyShiftService;
         this.completedShiftFilter = completedShiftFilter;
         this.singleShiftDailyFilter = singleShiftDailyFilter;
         this.consecutiveDayFilter = consecutiveDayFilter;
+        this.shiftFulfilled = shiftFulfilled;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
         dailyShiftService.replaceAll(generateShift);
         var shifts = populate(dailyShiftService.retrieveAll(), engineers);
 
-        while (!valid(shifts, engineers)) {
+        while (!fulfilled(shifts, engineers)) {
             shifts = populate(dailyShiftService.retrieveAll(), engineers);
         }
 
@@ -86,9 +90,10 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
         return engineers.get(randomIndex);
     }
 
-    private boolean valid(List<DailyShift> dailyShifts, List<Engineer> engineers) {
-        return engineers.stream()
-                .allMatch(e -> completedShiftFilter.evaluate(dailyShifts, 0, e));
+    private boolean fulfilled(List<DailyShift> dailyShifts, List<Engineer> engineers) {
+        return shiftFulfilled.evaluate(dailyShifts, 0, null) ||
+                engineers.stream()
+                        .allMatch(e -> completedShiftFilter.evaluate(dailyShifts, 0, e));
     }
 
     private List<Engineer> applyFilter(List<Engineer> original, List<DailyShift> dailyShifts, int currentShiftIndex) {

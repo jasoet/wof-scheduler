@@ -45,7 +45,7 @@ public class ShiftController {
                 .subscribeOn(Schedulers.elastic());
     }
 
-    @RequestMapping(value = "/populate", method = RequestMethod.POST,
+    @RequestMapping(value = "/populate", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<DailyShift> populate() {
 
@@ -55,7 +55,7 @@ public class ShiftController {
 
     @RequestMapping(value = "/{date}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<DailyShift> get(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public Mono<DailyShift> get(@PathVariable(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
         return executor.execute(ShiftGetCommand.class, date)
                 .subscribeOn(Schedulers.elastic());

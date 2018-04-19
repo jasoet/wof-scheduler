@@ -43,7 +43,7 @@ public class EngineerController {
                 .subscribeOn(Schedulers.elastic());
     }
 
-    @RequestMapping(value = "/populate", method = RequestMethod.POST,
+    @RequestMapping(value = "/populate", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<Engineer> populate() {
 
