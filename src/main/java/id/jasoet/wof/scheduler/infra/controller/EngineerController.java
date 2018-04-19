@@ -4,6 +4,7 @@ import id.jasoet.wof.scheduler.domain.entity.Engineer;
 import id.jasoet.wof.scheduler.infra.command.EngineerAddCommand;
 import id.jasoet.wof.scheduler.infra.command.EngineerDeleteCommand;
 import id.jasoet.wof.scheduler.infra.command.EngineerGenerateCommand;
+import id.jasoet.wof.scheduler.infra.command.EngineerGetCommand;
 import id.jasoet.wof.scheduler.infra.command.EngineerListCommand;
 import id.jasoet.wof.scheduler.infra.command.executor.Executor;
 import id.jasoet.wof.scheduler.infra.request.EngineerRequest;
@@ -42,7 +43,7 @@ public class EngineerController {
                 .subscribeOn(Schedulers.elastic());
     }
 
-    @RequestMapping(value = "/populate", method = RequestMethod.GET,
+    @RequestMapping(value = "/populate", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<Engineer> populate() {
 
@@ -55,6 +56,14 @@ public class EngineerController {
     public Mono<Void> remove(@PathVariable("id") Integer id) {
 
         return executor.execute(EngineerDeleteCommand.class, id)
+                .subscribeOn(Schedulers.elastic());
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Engineer> get(@PathVariable("id") Integer id) {
+
+        return executor.execute(EngineerGetCommand.class, id)
                 .subscribeOn(Schedulers.elastic());
     }
 }

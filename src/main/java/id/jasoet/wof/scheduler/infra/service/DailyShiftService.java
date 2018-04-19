@@ -1,7 +1,6 @@
 package id.jasoet.wof.scheduler.infra.service;
 
 import id.jasoet.wof.scheduler.domain.entity.DailyShift;
-import id.jasoet.wof.scheduler.domain.entity.Engineer;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +12,9 @@ public interface DailyShiftService {
 
     List<DailyShift> retrieveAll();
 
-    List<DailyShift> findByEngineer(Engineer engineer);
+    List<DailyShift> findByEngineer(Integer engineerId);
+
+    DailyShift findByDate(LocalDate localDate);
 
     void replaceAll(List<DailyShift> shifts);
 }

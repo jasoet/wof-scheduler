@@ -2,7 +2,6 @@ package id.jasoet.wof.scheduler.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
 
 import java.time.LocalDate;
 

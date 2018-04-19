@@ -80,6 +80,13 @@ public class DailyShiftRepository {
     }
 
     /**
+     * Find DailyShift by Date
+     */
+    public DailyShift findByDate(LocalDate localDate) {
+        return dailyShiftCache.getIfPresent(localDate);
+    }
+
+    /**
      * Retrieve all saved data from memory, sorted by date
      *
      * @return List of DailyShift
