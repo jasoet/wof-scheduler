@@ -26,6 +26,8 @@ before_script:
 - gcloud -q version
 - gcloud -q components install kubectl
 - gcloud container clusters get-credentials jasoet-research --zone asia-southeast1-a --project jasoet-research
+- gcloud config set compute/zone asia-southeast1-a
+- gcloud config set project jasoet-research
 
 script:
 - "./gradlew check"
@@ -33,3 +35,4 @@ script:
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -t 5ad8bf57-2558-4973-a1dc-762de9a531d6
+- kubectl set image deployment/wof-scheduler wof=gcr.io/jasoet-research/wof-scheduler:latest
