@@ -9,7 +9,6 @@ import id.jasoet.wof.scheduler.infra.command.ShiftSchedulingCommand;
 import id.jasoet.wof.scheduler.infra.service.DailyShiftService;
 import id.jasoet.wof.scheduler.infra.service.EngineerService;
 import lombok.experimental.var;
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,8 +51,18 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
 
         val generateShift = dailyShiftService.getNextTwoWeekShift();
         dailyShiftService.replaceAll(generateShift);
-        val shifts = dailyShiftService.retrieveAll();
+        var shifts = populate(dailyShiftService.retrieveAll(), engineers);
 
+        while (!valid(shifts, engineers)) {
+            shifts = populate(dailyShiftService.retrieveAll(), engineers);
+        }
+
+        dailyShiftService.replaceAll(shifts);
+
+        return Flux.fromIterable(dailyShiftService.retrieveAll());
+    }
+
+    private List<DailyShift> populate(List<DailyShift> shifts, List<Engineer> engineers) {
         for (var index = 0; index < shifts.size(); index++) {
             var currentDay = shifts.get(index);
 
@@ -65,10 +74,7 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
             var selectedSecondShiftEngineer = getByRandomIndex(secondShiftCandidates);
             currentDay.setSecondHalf(selectedSecondShiftEngineer);
         }
-
-        dailyShiftService.replaceAll(shifts);
-
-        return Flux.fromIterable(dailyShiftService.retrieveAll());
+        return shifts;
     }
 
     private Engineer getByRandomIndex(List<Engineer> engineers) {
@@ -80,12 +86,16 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
         return engineers.get(randomIndex);
     }
 
+    private boolean valid(List<DailyShift> dailyShifts, List<Engineer> engineers) {
+        return engineers.stream()
+                .allMatch(e -> completedShiftFilter.evaluate(dailyShifts, 0, e));
+    }
 
     private List<Engineer> applyFilter(List<Engineer> original, List<DailyShift> dailyShifts, int currentShiftIndex) {
         return original.stream()
                 .filter(e -> !completedShiftFilter.evaluate(dailyShifts, currentShiftIndex, e))
-                .filter(e -> !singleShiftDailyFilter.evaluate(dailyShifts, currentShiftIndex, e))
                 .filter(e -> !consecutiveDayFilter.evaluate(dailyShifts, currentShiftIndex, e))
+                .filter(e -> !singleShiftDailyFilter.evaluate(dailyShifts, currentShiftIndex, e))
                 .collect(Collectors.toList());
     }
 }
