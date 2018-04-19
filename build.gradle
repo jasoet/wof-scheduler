@@ -11,6 +11,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.palantir.docker' version '0.19.2'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: "jacoco"
@@ -53,6 +57,13 @@ dependencies {
     testCompile("pl.pojo:pojo-tester:${pojoTesterVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
+}
+
+docker {
+    name "hub.docker.com/jasoet/wof-scheduler"
+    tags 'latest'
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
 }
 
 task wrapper(type: Wrapper) {
