@@ -9,6 +9,7 @@ import id.jasoet.wof.scheduler.infra.command.ShiftSchedulingCommand;
 import id.jasoet.wof.scheduler.infra.service.DailyShiftService;
 import id.jasoet.wof.scheduler.infra.service.EngineerService;
 import lombok.experimental.var;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,12 +50,9 @@ public class ShiftSchedulingCommandImpl implements ShiftSchedulingCommand {
             engineers = engineerService.findAll();
         }
 
-        List<DailyShift> shifts = dailyShiftService.retrieveAll();
-        if (shifts.isEmpty()) {
-            val generateShifts = dailyShiftService.getNextTwoWeekShift();
-            dailyShiftService.replaceAll(generateShifts);
-            shifts = dailyShiftService.retrieveAll();
-        }
+        val generateShift = dailyShiftService.getNextTwoWeekShift();
+        dailyShiftService.replaceAll(generateShift);
+        val shifts = dailyShiftService.retrieveAll();
 
         for (var index = 0; index < shifts.size(); index++) {
             var currentDay = shifts.get(index);

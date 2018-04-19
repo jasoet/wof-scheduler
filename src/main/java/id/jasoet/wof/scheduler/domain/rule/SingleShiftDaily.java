@@ -28,6 +28,6 @@ public class SingleShiftDaily implements SchedulePredicate {
         }
 
         final DailyShift currentShift = dailyShifts.get(currentShiftIndex);
-        return currentShift.getFirstHalf() == engineer || currentShift.getFirstHalf() == engineer;
+        return currentShift.getFirstHalf() == engineer || currentShift.getSecondHalf() == engineer;
     }
 }

@@ -24,7 +24,7 @@
     </root>
 
     <logger name="id.jasoet" level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="STDOUT"/>-->
         <appender-ref ref="FILE"/>
     </logger>
 

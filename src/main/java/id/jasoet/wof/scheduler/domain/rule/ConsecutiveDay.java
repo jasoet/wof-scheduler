@@ -2,6 +2,7 @@ package id.jasoet.wof.scheduler.domain.rule;
 
 import id.jasoet.wof.scheduler.domain.entity.DailyShift;
 import id.jasoet.wof.scheduler.domain.entity.Engineer;
+import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ConsecutiveDay implements SchedulePredicate {
             return false;
         }
 
-        DailyShift dayBeforeShift = dailyShifts.get(currentShiftIndex - 1);
+        val dayBeforeShift = dailyShifts.get(currentShiftIndex - 1);
         return dayBeforeShift.getFirstHalf() == engineer || dayBeforeShift.getSecondHalf() == engineer;
     }
 }
