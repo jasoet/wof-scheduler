@@ -1,4 +1,4 @@
-package id.jasoet.wof.scheduler.infra.controller;
+package id.jasoet.wof.scheduler.infra.controller.v1;
 
 import id.jasoet.wof.scheduler.domain.entity.Engineer;
 import id.jasoet.wof.scheduler.infra.command.EngineerAddCommand;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 @RestController
-@RequestMapping("/engineers")
+@RequestMapping("/v1/engineers")
 public class EngineerController {
     private Executor executor;
 

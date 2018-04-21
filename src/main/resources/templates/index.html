@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Wof Design</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="/assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="/assets/css/Navigation-with-Button.css">
+</head>
+
+<body>
+<div></div>
+<div>
+    <div class="header-blue">
+        <nav class="navbar navbar-dark navbar-expand-md">
+            <div class="container"><a class="navbar-brand" href="#">Jasoet Corporation!</a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <span class="ml-auto navbar-text"><a href="https://www.linkedin.com/in/jasoet" class="nav-link active">LinkedIn</a></span>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item" role="presentation"><a class="nav-link active" href="https://github.com/jasoet">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container hero">
+            <div class="row">
+                <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
+                    <h1>Wheel of Fate!</h1>
+                    <p>All engineers in Jasoet Corporation take it in turns to support the business for half a day at a
+                        time. &nbsp;<br>Each engineer should have completed one whole day of support in any 2 week
+                        period.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="page projets-page">
+    <section class="portfolio-block project-no-images">
+        <div class="container">
+            <div class="heading">
+                <h2>Business support schedule</h2>
+            </div>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link" th:classappend="${menuAll} ? active : '' " th:href="@{/}">All</a></li>
+                <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle"
+                                        th:classappend="${menuEngineer} ? active : '' "
+                                        data-toggle="dropdown"
+                                        aria-expanded="false" href="#">Engineer&nbsp;</a>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" role="presentation" href="#" th:href="@{/(engineer=${engineer.id})}"
+                           th:each="engineer: ${engineers}" th:text="${engineer.name}"></a>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/populate}">Reschedule</a></li>
+            </ul>
+            <div class="row">
+                <div class="col-md-6 col-lg-4" th:each="shift : ${shifts}">
+                    <div class="project-card-no-image">
+                        <h3 th:text="${#temporals.format(shift.date, 'dd MMMM yyyy')}">Date</h3>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">First Half</h4>
+                                <h6 class="text-muted card-subtitle mb-2" th:text="${shift.firstHalf.name}">Name</h6>
+                                <a class="card-link" th:href="@{/(engineer=${shift.firstHalf.id})}" href="#">Detail</a>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">Second Half</h4>
+                                <h6 class="text-muted card-subtitle mb-2" th:text="${shift.secondHalf.name}">Name</h6>
+                                <a class="card-link" th:href="@{/(engineer=${shift.secondHalf.id})}" href="#">Detail</a>
+                            </div>
+                        </div>
+                        <div class="tags"><a th:text="${#temporals.dayOfWeekName(shift.date)}">Day of Week</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="page-footer">
+    <div class="container">
+        <div class="links"><a href="#">Github</a><a href="#">Travis</a><a href="#">CodeCov</a></div>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/theme.js"></script>
+</body>
+
+</html>

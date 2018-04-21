@@ -1,4 +1,4 @@
-package id.jasoet.wof.scheduler.infra.controller;
+package id.jasoet.wof.scheduler.infra.controller.v1;
 
 import id.jasoet.wof.scheduler.domain.entity.DailyShift;
 import id.jasoet.wof.scheduler.infra.command.ShiftGetByEngineerCommand;
@@ -21,7 +21,7 @@ import reactor.core.scheduler.Schedulers;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/shifts")
+@RequestMapping("/v1/shifts")
 public class ShiftController {
     private Executor executor;
 

@@ -22,4 +22,8 @@ public class DailyShift {
     private LocalDate date;
     private Engineer firstHalf;
     private Engineer secondHalf;
+
+    public boolean fulfilled() {
+        return firstHalf != null && secondHalf != null;
+    }
 }

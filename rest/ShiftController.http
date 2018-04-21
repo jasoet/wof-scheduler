@@ -5,22 +5,22 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:8080/shifts/populate
+POST http://localhost:8080/v1/shifts/populate
 Accepts: application/json
 
 ###
 
-GET http://localhost:8080/shifts
+GET http://localhost:8080/v1/shifts
 Accepts: application/json
 
 ###
 
-GET http://localhost:8080/shifts/2018-04-26
+GET http://localhost:8080/v1/shifts/2018-04-26
 Accepts: application/json
 
 ###
 
-GET http://localhost:8080/shifts?engineerId=4
+GET http://localhost:8080/v1/shifts?engineerId=4
 Accepts: application/json
 
 ###
