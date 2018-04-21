@@ -23,9 +23,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navcol-1">
-                    <span class="ml-auto navbar-text"><a href="https://www.linkedin.com/in/jasoet" class="nav-link active">LinkedIn</a></span>
+                    <span class="ml-auto navbar-text"><a href="https://www.linkedin.com/in/jasoet"
+                                                         class="nav-link active">LinkedIn</a></span>
                     <ul class="nav navbar-nav">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" href="https://github.com/jasoet">Github</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active"
+                                                                    href="https://github.com/jasoet">Github</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,7 +51,8 @@
                 <h2>Business support schedule</h2>
             </div>
             <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link" th:classappend="${menuAll} ? active : '' " th:href="@{/}">All</a></li>
+                <li class="nav-item"><a class="nav-link" th:classappend="${menuAll} ? active : '' "
+                                        th:href="@{/}">All</a></li>
                 <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle"
                                         th:classappend="${menuEngineer} ? active : '' "
                                         data-toggle="dropdown"
@@ -86,7 +89,11 @@
 </main>
 <footer class="page-footer">
     <div class="container">
-        <div class="links"><a href="#">Github</a><a href="#">Travis</a><a href="#">CodeCov</a></div>
+        <div class="links">
+            <a href="https://github.com/jasoet/wof-scheduler">Github</a>
+            <a href="https://travis-ci.org/jasoet/wof-scheduler">Travis</a>
+            <a href="https://codecov.io/gh/jasoet/wof-scheduler">CodeCov</a>
+        </div>
     </div>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
