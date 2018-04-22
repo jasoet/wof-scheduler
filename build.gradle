@@ -2,11 +2,13 @@ buildscript {
     ext {
         springBootVersion = '2.0.1.RELEASE'
         pojoTesterVersion = "0.7.6"
-        tag = project.getProperty('tag')
+        tag = "${project.hasProperty('tag') ? project.property('tag') : 'latest'}"
     }
+
     repositories {
         mavenCentral()
     }
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }

@@ -7,11 +7,15 @@ services:
 jdk:
 - oraclejdk8
 
+stages:
+  - name: deploy
+    if: branch = master
+
 cache:
   directories:
   - "$HOME/google-cloud-sdk/"
 
-before_script:
+install:
 - echo "$CONFIG" | base64 --decode > gcloud-config.json
 - chmod +x gradlew
 - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
@@ -28,6 +32,6 @@ before_script:
 script:
 - "./gradlew check build dockerPush -Ptag=${TRAVIS_COMMIT}"
 
-after_success:
+deploy:
 - bash <(curl -s https://codecov.io/bash) -t 5ad8bf57-2558-4973-a1dc-762de9a531d6
 - "kubectl set image deployment/wof-scheduler wof=gcr.io/jasoet-research/wof-scheduler:${TRAVIS_COMMIT}"
