@@ -27,8 +27,8 @@ before_script:
 
 script:
 - "./gradlew check"
-- "./gradlew build dockerPush"
+- "./gradlew build dockerPush${TRAVIS_COMMIT}"
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -t 5ad8bf57-2558-4973-a1dc-762de9a531d6
-- kubectl set image deployment/wof-scheduler wof=gcr.io/jasoet-research/wof-scheduler:latest
+- "kubectl set image deployment/wof-scheduler wof=gcr.io/jasoet-research/wof-scheduler:${TRAVIS_COMMIT"
