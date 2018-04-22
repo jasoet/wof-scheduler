@@ -1,10 +1,5 @@
 sudo: required
 language: java
-env:
-  global:
-  - secure: VkkESlwAeugSsBfM7riWG2hxv6LaNqgrS6IPp6/9IAR1cTr4QK0CAlg2atdIzRFdn1HCLN7s5wXlUFChUOydBYOUgcj7m3oBhSp+k6EmBqscE18vNogUK5ZzNfF0PCkbDpWePLpbexA6wZEMqyqe7dnVdOayzpgOcqyMwG3MV9IFRoeB30gK7RjZpGqCuNXL+HS0el8sTmE3bD4erOakVNIKwAKu3ylqOK1IEejSsM3W1lTTUWqcSCYmqq3ZZtUy8guOL0hxhICnRUvogxq/rKnBBoN5qpJ8t9qTXKVfYSTZkGSo/7yzYHbhfXBqcGdjZdHmOcC5XtxN9pewZ0FiyktOStZ+MhKdg8UFe9cSmQqJHCyUdglE5cdwnS1Pa1P9p6mBqdhgXWM4OTa794ZUjPK3/MoqmUhtQASYXJnsA5fYpj3NDP54h0egjSsIzk5CHExudZfhcKm9IcLDx8+MQ9ysAwTqZaZGG24BNQtXueiszQSJBPDT2YNwhJdPWBBYggUCDv2kgFzYMT0KwbJFp6nw1Si7r7mBDYdtfeHghbB+6f7qH6OgRVJkjBANNYp2ZO1fVCNmGf8n9O1b1cy+4Dqc8yewVKM89DMuE+PesIBy5hCN22eCECu6MQXyhoipuY6yD6TksTvNVKNLiGLyrQPaH+FYoy1FgYVm+XgMARQ=
-  - secure: HSUfdulHpwQLX74FYz+VDAOnQNLpt/7CEIUCzsfmEZsmeTpztySAboPq+5hvW9m7dm1EHl/agPMFvf0MYLDQEf0d776bYeTfkJ3lb+5v52noVT65zvJ4H5ZknrGiXy/9LhNacYfcVhjKZwqPkB9iPvCG+4rupX5um2byKUy7rI7Zm5CGXtPIfXjfM2h7zZzk3H1i80s508Q/vbhDDC4m2lF5oSh/h2avDySfB6d3883TaocXWMvsVi6thAM5T/6QQJ/HmckZj03T13UD4sR3A2lvE9BKCrjIYjIKTibEEli+v1IOOjc4/H9zvIHUYMVohgGrR1U/1fSDhwW78EJabMN7BPatuz1DAKSKUD7KPSaaGmtmBOCzz5cvF6y+xo9jUmEugZJLvLhOqsV5vdVqnLw5+tj5gYL2P5GKU9mqNA5EBCeu78bvk3vukqynUTQp8O877969TQmNnUjal5eZSal0aw4xpndXqs7Bo7xs7IcV+Aga2t9TTSvLHw1DpTr3pvd28wLeOWmFo/z19EXl4mdLDciMjS5wAXYnPRDJA2sKpTirQmPupWCX4jMV1vtEOl6viuWONmJ218I1Z9X1p134V3rf1Jno5vl+sh/AQIrAQsg0MG1TYD1pmSakOY7nu8dV1JNyhLfuj/aSYnBR2Xcwti/LVLLRMrBFQZzeJkU=
-  - secure: Hbg5s0BJ3CfoUYSX6Gsai3duwypSz3+k6iiriUPU1hGdPzfnShlX883YeD5MslzNUZRvPtBnKnP3YF3dwLLXbWWwqByv9TiTZspLfLXw7E4HwPrF3jgwQwUB88SPJfJOwiOZvgRfBHVotmfQ1WA1TRfpDiDR+ZvBAtJ5tEGs5FhWwjgz6YNHhvdIujA7S7HKfLtiajHz6Fw5/T70JBp9zfEqOjqASC+rDEb/gSWMgsr01OvIYQeI5H3XmlviVjf0FKKIxG1gad8oQ5+S5AX9POviSAVmJPb4MEdWMfDWafsIxw6zIvdlDqMH76Ko6TMSGJi+6D5V4vkdjmBYh5qYbLEUHyvRk1O1ZkT+b39Vw/HrSCmFOC0uFIKZydOaLiatuTWX8ft8KPJWwjZq+o+wYRQRAItyEHub2lRmrEtxMxzQdB6yK6qguvMt2aqasha06ZBJvs8bgculW8K1oDvID/HYYDrG9qpreNzceYZA7Ne66O5rlebFxkybtSDN+HiebrEkH9RP1hlA9M0JygMkrpk1DG6jCrMs4YYvEK/s9Y+TlkugS2hjA8YqkG0wdiy1DhF0pyWak4tjQkQV6P9CvzfWvgkVACRxCU45bCCEO2Vio3xH2R1/we1WNyP/Al/3GcrlL2o5fuu1tflMnEy3G1Z30Y+JsIsiU+i1fNvRu6E=
 
 services:
   - docker
@@ -17,10 +12,10 @@ cache:
   - "$HOME/google-cloud-sdk/"
 
 before_script:
+- echo "$CONFIG" | base64 --decode > /home/travis/google-cloud-sdk/gcloud-config.json
 - chmod +x gradlew
 - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
 - source /home/travis/google-cloud-sdk/path.bash.inc
-- openssl aes-256-cbc -K $encrypted_b0799c72c2bc_key -iv $encrypted_b0799c72c2bc_iv -in gcloud-config.json.enc -out /home/travis/google-cloud-sdk/gcloud-config.json -d
 - gcloud auth activate-service-account --key-file /home/travis/google-cloud-sdk/gcloud-config.json
 - gcloud -q auth configure-docker
 - gcloud -q version
